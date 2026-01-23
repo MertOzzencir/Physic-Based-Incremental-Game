@@ -1,0 +1,108 @@
+{
+    "version": 1,
+    "name": "InputControllers",
+    "maps": [
+        {
+            "name": "Player",
+            "id": "ba423294-653d-476a-99e6-21ab349184a5",
+            "actions": [
+                {
+                    "name": "Interact",
+                    "type": "Button",
+                    "id": "ca1dafec-8bec-492b-9b0f-ed6fdc1ba004",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "BreakStart",
+                    "type": "Button",
+                    "id": "7d59a78d-949b-47b0-bcf3-4c7a02b5d2f6",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ToolPick",
+                    "type": "Value",
+                    "id": "15ecaa50-b80a-4658-919e-bcb3df6da769",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "48d6a4ca-1d8a-4701-a813-af2471927018",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1d8ce3bf-a625-48c9-baa3-8ea4f8848e03",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "BreakStart",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "dbc09eed-3c80-46ea-bbe8-a012622861d5",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ToolPick",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "05b83050-c21a-4829-bcb4-c6dbc995e9d1",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ToolPick",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2bc19e34-9ed8-42bd-8af0-a1ff5f5a9d70",
+                    "path": "<Keyboard>/3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ToolPick",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "eee39bc5-616c-4348-a051-a824ea469240",
+                    "path": "<Keyboard>/4",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ToolPick",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
