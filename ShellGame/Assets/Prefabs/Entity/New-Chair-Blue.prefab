@@ -813,7 +813,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99b4033ab307b78468f47144aa923adf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LocalBreakableManager
-  childs:
+  Childs:
   - {fileID: 5751297635347167420}
   - {fileID: 3809346717686677744}
   - {fileID: 3324207007684666914}

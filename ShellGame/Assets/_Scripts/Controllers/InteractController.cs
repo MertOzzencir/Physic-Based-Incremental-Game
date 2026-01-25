@@ -9,8 +9,10 @@ public class InteractController : MonoBehaviour
         BreakMode
     }
     public static Vector3 LastInteractedPosition;
-    private void InteractLogic()
+    private void InteractLogic(bool interactState)
     {
+        if (!interactState)
+            return;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit[] hits = Physics.RaycastAll(ray);
         System.Array.Sort(hits, (a, b) => a.distance.CompareTo(b.distance));
@@ -28,14 +30,14 @@ public class InteractController : MonoBehaviour
 
     void OnEnable()
     {
-        InputManager.OnInteract += InteractLogic;
+        InputManager.OnLeftClickAction += InteractLogic;
     }
 
 
 
     void OnDisable()
     {
-        InputManager.OnInteract -= InteractLogic;
+        InputManager.OnLeftClickAction -= InteractLogic;
     }
 
 }

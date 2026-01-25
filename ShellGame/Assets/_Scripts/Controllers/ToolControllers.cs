@@ -6,7 +6,7 @@ public class ToolControllers : MonoBehaviour
 {
     [SerializeField] private Tools[] tools;
 
-    private Tools currentTool;
+    public Tools CurrentTool;
     void OnEnable()
     {
         InputManager.OnToolPick += PickTool;
@@ -18,26 +18,16 @@ public class ToolControllers : MonoBehaviour
     }
     private void PickTool(int obj)
     {
-        int index = 1;
-        foreach (var a in tools)
+        SetTool(tools[obj -1]);
+    }
+    public void SetTool(Tools nextTool)
+    {
+
+        if (CurrentTool == nextTool)
         {
-            if (index == obj)
-            {
-                if (a.enabled == true)
-                {
-                    a.OnDeEquippedLogic();
-                    currentTool = null;
-                }
-                else
-                {
-                    if (currentTool != null)
-                        currentTool.OnDeEquippedLogic();
-                    a.OnEquippedLogic();
-                    currentTool = a;
-                }
-                break;
-            }
-            index++;
+            CurrentTool = null;
         }
+        else
+            CurrentTool = nextTool;
     }
 }

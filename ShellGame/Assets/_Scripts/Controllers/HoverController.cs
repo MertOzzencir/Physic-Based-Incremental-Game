@@ -5,19 +5,6 @@ public class HoverController : MonoBehaviour
     [SerializeField] private GameObject hoverIndicator;
 
 
-
-    void Update()
-    {
-        // Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        // RaycastHit[] hits = Physics.RaycastAll(ray, Mathf.Infinity, ~0, QueryTriggerInteraction.Ignore);
-        // System.Array.Sort(hits, (a, b) => a.distance.CompareTo(b.distance));
-        // foreach (var a in hits)
-        // {
-
-
-        // }
-
-    }
     public void HoverOnObject(Collider targetObject)
     {
         if (targetObject.TryGetComponent(out BoxCollider hoveredCollider))
@@ -41,12 +28,10 @@ public class HoverController : MonoBehaviour
 
     void OnEnable()
     {
-        Debug.Log("Hover Enabled");
         hoverIndicator.SetActive(true);
     }
     void OnDisable()
     {
-        Debug.Log("Hover Disabled");
         if (hoverIndicator != null)
         {
             hoverIndicator.transform.parent = null;

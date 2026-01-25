@@ -6,9 +6,8 @@ public class InputManager : MonoBehaviour
 {
 
     public static InputManager Instance;
-    public static event Action OnInteract;
-    public static event Action OnBreakBeginning;
-    public static event Action OnBreakCanceled;
+    public static event Action<bool> OnLeftClickAction;
+    public static event Action<bool> OnRightClickAction;
     public static event Action<int> OnToolPick;
     private InputControllers _inputSource;
 
@@ -19,26 +18,31 @@ public class InputManager : MonoBehaviour
         Instance = this;
     }
 
-    private void StartBreak(InputAction.CallbackContext context)
+    private void RightClickAction(InputAction.CallbackContext ctx)
     {
-        OnBreakBeginning?.Invoke();
+        if (ctx.phase == InputActionPhase.Performed)
+            OnRightClickAction?.Invoke(true);
+        else if (ctx.phase == InputActionPhase.Canceled)
+            OnRightClickAction?.Invoke(false);
     }
-    private void CancelBreak(InputAction.CallbackContext context)
+    private void LeftClickStateClickAction(InputAction.CallbackContext ctx)
     {
-        OnBreakCanceled?.Invoke();
+        if (ctx.phase == InputActionPhase.Performed)
+            OnLeftClickAction?.Invoke(true);
+        else if (ctx.phase == InputActionPhase.Canceled)
+            OnLeftClickAction?.Invoke(false);
     }
 
-    private void InteractAction(InputAction.CallbackContext context)
-    {
-        OnInteract?.Invoke();
-    }
 
     private void OnEnable()
     {
         _inputSource.Enable();
-        _inputSource.Player.Interact.performed += InteractAction;
-        _inputSource.Player.BreakStart.performed += StartBreak;
-        _inputSource.Player.BreakStart.canceled += CancelBreak;
+        _inputSource.Player.Interact.performed += LeftClickStateClickAction;
+        _inputSource.Player.Interact.canceled += LeftClickStateClickAction;
+
+        _inputSource.Player.BreakStart.performed += RightClickAction;
+        _inputSource.Player.BreakStart.canceled += RightClickAction;
+
         _inputSource.Player.ToolPick.performed += ToolPickMenu;
     }
 
@@ -56,9 +60,10 @@ public class InputManager : MonoBehaviour
     private void OnDisable()
     {
         _inputSource.Disable();
-        _inputSource.Player.Interact.performed -= InteractAction;
-        _inputSource.Player.BreakStart.performed -= StartBreak;
-        _inputSource.Player.BreakStart.canceled -= CancelBreak;
+        _inputSource.Player.Interact.performed -= LeftClickStateClickAction;
+        _inputSource.Player.Interact.canceled -= LeftClickStateClickAction;
+        _inputSource.Player.BreakStart.performed -= RightClickAction;
+        _inputSource.Player.BreakStart.canceled -= RightClickAction;
         _inputSource.Player.ToolPick.performed -= ToolPickMenu;
     }
 }

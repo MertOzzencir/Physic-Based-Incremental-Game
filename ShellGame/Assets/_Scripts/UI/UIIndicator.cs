@@ -1,7 +1,7 @@
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class UIndicator : MonoBehaviour
+public class UIIndicator : MonoBehaviour
 {
     [SerializeField] private Sprite[] indicators;
     [SerializeField] private UnityEngine.UI.Image UIImage;
@@ -17,9 +17,9 @@ public class UIndicator : MonoBehaviour
     {
         UIImage.transform.position = Input.mousePosition;
     }
-    public void SetIndicator(int index)
+    public void SetIndicator(CursorIndicator indicator)
     {
-        UIImage.sprite = indicators[index];
+        UIImage.sprite = indicators[(int)indicator];
     }
     public void BreakCursorInitiaze()
     {
@@ -29,4 +29,11 @@ public class UIndicator : MonoBehaviour
     {
         anim.SetTrigger("canFinishBreak");
     }
+}
+
+public enum CursorIndicator
+{
+    IdleMode = 0,
+    BreakMode = 1,
+    FailMode = 2
 }

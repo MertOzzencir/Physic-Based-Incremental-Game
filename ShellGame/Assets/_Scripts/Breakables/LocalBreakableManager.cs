@@ -1,12 +1,13 @@
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public class LocalBreakableManager : MonoBehaviour
 {
-    [SerializeField] private LocalChildBreakable[] childs;
+    public List<LocalChildBreakable> Childs;
 
 
-    private void HandleLogicOfChild(LocalChildBreakable child, Vector3 forceDirection)
+    public void HandleLogicOfChild(LocalChildBreakable child, Vector3 forceDirection)
     {
 
         //check the objects that connected to child and relaease them
@@ -17,7 +18,7 @@ public class LocalBreakableManager : MonoBehaviour
             {
                 if (a.connectedToObject.Count == 0)
                 {
-                    a.CollectState(true);
+                    a.CollectState();
                 }
 
                 a.rootObject.RecieveMessageFromChild(a);
@@ -29,12 +30,13 @@ public class LocalBreakableManager : MonoBehaviour
             }
             else
                 continue;
-                
+
             if (_childRb != null)
             {
                 _childRb.AddForce((forceDirection + Vector3.up) * 3.5f, ForceMode.Impulse);
             }
             a.transform.parent = null;
+
         }
 
         //check child's root object, if it's exist. Send message.
@@ -51,21 +53,20 @@ public class LocalBreakableManager : MonoBehaviour
         {
             child.rootObject.RecieveMessageFromChild(child);
         }
+
+
+
     }
 
 
-    private void OnEnable()
+    public void OnChildDeath(LocalChildBreakable destroyedChild)
     {
-        foreach (var a in childs)
+        Destroy(destroyedChild.gameObject, 1f);
+        Childs.Remove(destroyedChild);
+        if (Childs.Count <= 0)
         {
-            a.OnSendMessage += HandleLogicOfChild;
+            Destroy(gameObject);
         }
     }
-    private void OnDisable()
-    {
-        foreach (var a in childs)
-        {
-            a.OnSendMessage -= HandleLogicOfChild;
-        }
-    }
+
 }

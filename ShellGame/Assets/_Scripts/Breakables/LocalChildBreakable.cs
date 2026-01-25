@@ -4,36 +4,30 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class LocalChildBreakable : MonoBehaviour, IBreakable,ICollectable
+public class LocalChildBreakable : MonoBehaviour, IBreakable, ICollectable
 {
-    public event Action<LocalChildBreakable,Vector3> OnSendMessage;
 
-    [SerializeField] private MeshCollider childCollider;
     public List<LocalChildBreakable> connectedToObject;
     public LocalChildBreakable rootObject;
 
 
-
+    private LocalBreakableManager manager;
     int childTimer;
 
-    public bool IsCollectable { get ; set; }
+    public bool IsCollectable { get; set; }
 
     void Awake()
     {
         childTimer = connectedToObject.Count;
+        manager = GetComponentInParent<LocalBreakableManager>();
     }
     public void Break(Vector3 forceDirection)
     {
         if (!IsCollectable)
         {
-            OnSendMessage?.Invoke(this,forceDirection);
-            if(childCollider != null)
-            {
-                childCollider.enabled = false;
-            }
-            CollectState(true);
+            manager.HandleLogicOfChild(this, forceDirection);
+            CollectState();
         }
-
     }
     public void RecieveMessageFromChild(LocalChildBreakable objectToRemove)
     {
@@ -49,7 +43,7 @@ public class LocalChildBreakable : MonoBehaviour, IBreakable,ICollectable
         {
             connectedToObject.Clear();
             transform.parent = null;
-            CollectState(true);
+            CollectState();
             if (transform.GetComponent<Rigidbody>() == null)
                 transform.AddComponent<Rigidbody>();
             if (rootObject != null)
@@ -58,9 +52,10 @@ public class LocalChildBreakable : MonoBehaviour, IBreakable,ICollectable
             }
         }
     }
-    public void CollectState(bool state)
+    public void CollectState()
     {
-        IsCollectable = state;
+        IsCollectable = true;
+        manager.OnChildDeath(this);
     }
 
     public void Collect()
