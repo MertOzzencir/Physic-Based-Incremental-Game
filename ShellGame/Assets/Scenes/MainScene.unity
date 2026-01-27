@@ -1207,11 +1207,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1520600451269520725, guid: ee1fe641146941e4d9d017112c63b6ad, type: 3}
   m_PrefabInstance: {fileID: 2849136989543307752}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &2139911641 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 660216213277655331, guid: ee1fe641146941e4d9d017112c63b6ad, type: 3}
-  m_PrefabInstance: {fileID: 2849136989543307752}
-  m_PrefabAsset: {fileID: 0}
 --- !u!95 &1947663536914493577 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 1127177626049790088, guid: ee1fe641146941e4d9d017112c63b6ad, type: 3}
@@ -1229,10 +1224,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: HammerToolMachine
       objectReference: {fileID: 0}
-    - target: {fileID: 5656814931837639281, guid: ee1fe641146941e4d9d017112c63b6ad, type: 3}
-      propertyPath: ToolPlacement
-      value: 
-      objectReference: {fileID: 2139911641}
     - target: {fileID: 5753545273484675643, guid: ee1fe641146941e4d9d017112c63b6ad, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

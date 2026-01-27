@@ -5,7 +5,6 @@ public class HammerPrepareState : ToolStates
 {
     LayerMask groundLayerMask;
     LayerMask breakableLayerMask;
-    float cancelTimer;
     float hammerSize;
     private float rotationCorrect;
     private float hammerRollRotation;
@@ -23,7 +22,6 @@ public class HammerPrepareState : ToolStates
         base.Enter();
         Indicator.SetIndicator(CursorIndicator.BreakMode);
 
-        cancelTimer = 0;
         currentBreakable = null;
 
     }

@@ -1329,6 +1329,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   toolKeyboardIndex: 1
+  MachineTool: {fileID: 0}
+  ToolPlacement: {fileID: 660216213277655331}
 --- !u!1 &2616888321276509082
 GameObject:
   m_ObjectHideFlags: 0
