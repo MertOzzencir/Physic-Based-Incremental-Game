@@ -65,8 +65,8 @@ public abstract class Tools : MonoBehaviour
         Quaternion lookRotation = Quaternion.LookRotation(directionVector, Vector3.up);
         while (Vector3.Distance(toolTransform.position, placementPosition) > 0.1f)
         {
-            toolTransform.position = Vector3.Lerp(toolTransform.position, placementPosition, 15 * Time.deltaTime);
-            toolTransform.rotation = Quaternion.Lerp(toolTransform.rotation, lookRotation, 15 * Time.deltaTime);
+            toolTransform.position = Vector3.Lerp(toolTransform.position, placementPosition, 5 * Time.deltaTime);
+            toolTransform.rotation = Quaternion.Lerp(toolTransform.rotation, lookRotation, 5 * Time.deltaTime);
             yield return null;
         }
         toolTransform.position = placementPosition;

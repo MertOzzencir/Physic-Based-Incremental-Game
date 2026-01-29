@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
-
+[RequireComponent(typeof(MeshRenderer), typeof(MeshFilter))]
 public class Wire : MonoBehaviour
 {
     [SerializeField] private Transform startPoint, endPoint, segmentsParent;
@@ -19,13 +19,39 @@ public class Wire : MonoBehaviour
     [SerializeField] private int sides = 4;
 
     private Transform[] segments;
-    private List<Vector3> vertices;
+    private Vector3[] vertices;
+    private int[,] vertexIndicesMap;
+
+    private WireMeshData meshdata;
+    private Mesh mesh;
+    private bool createTriangles;
+
+    private MeshRenderer mRenderer;
+    private MeshFilter mFilter;
 
     void Start()
     {
+        mRenderer = GetComponent<MeshRenderer>();
+        mFilter = GetComponent<MeshFilter>();
         segments = new Transform[segmentCount];
-        vertices = new List<Vector3>();
+        vertices = new Vector3[segmentCount * sides * 3];
         GenerateSegments();
+    }
+
+    private void Update()
+    {
+        if (updateRope)
+        {
+            DestroySegments();
+            segments = new Transform[segmentCount];
+            GenerateSegments();
+            updateRope = false;
+        }
+        else
+        {
+            GenerateVertices();
+            UpdateMesh();
+        }
     }
 
     private void GenerateSegments()
@@ -48,22 +74,9 @@ public class Wire : MonoBehaviour
         }
         JoinSegments(endPoint, previousTransform, true, true);
         SetupCollisionAvoidance();
-        GenerateVertices();
+        GenerateMesh();
 
     }
-    private void Update()
-    {
-        if (updateRope)
-        {
-            DestroySegments();
-            segments = new Transform[segmentCount];
-            GenerateSegments();
-            updateRope = false;
-        }
-        else
-            GenerateVertices();
-    }
-
 
     private void JoinSegments(Transform current, Transform connectedTransform, bool isKinematic = false, bool isCloseConnected = false)
     {
@@ -75,6 +88,12 @@ public class Wire : MonoBehaviour
             segmentRigidbody.mass = totalWeight / segmentCount;
             segmentRigidbody.linearDamping = drag;
             segmentRigidbody.angularDamping = angularDrag;
+            segmentRigidbody.collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
+
+            if (!isKinematic)
+                segmentRigidbody.interpolation = RigidbodyInterpolation.Interpolate;
+            else
+                segmentRigidbody.constraints = RigidbodyConstraints.FreezeAll;
         }
         if (usePhysics)
         {
@@ -125,6 +144,101 @@ public class Wire : MonoBehaviour
             segmentJoint.angularYZDrive = jointDrive;
         }
     }
+    private void UpdateMesh()
+    {
+        GenerateVertices();
+        mFilter.mesh.vertices = vertices;
+    }
+    private void GenerateMesh()
+    {
+        createTriangles = true;
+        if (meshdata == null)
+        {
+            meshdata = new WireMeshData(sides, segmentCount + 1, false);
+        }
+        else
+            meshdata.ResetMesh(sides, segmentCount + 1, false);
+
+
+        GenerateIndicesMap();
+        GenerateVertices();
+        meshdata.ProcessMesh();
+        mesh = meshdata.CreateMesh();
+
+        mFilter.sharedMesh = mesh;
+
+        createTriangles = false;
+
+    }
+
+    private void GenerateVertices()
+    {
+        for (int i = 0; i < segments.Length; i++)
+        {
+            GenerateCircleVerticesAndTriangles(segments[i], i);
+        }
+    }
+
+    private void GenerateCircleVerticesAndTriangles(Transform segmentTransform, int segmentIndex)
+    {
+        float angleDiff = 360 / sides;
+        Quaternion diffRotation = Quaternion.FromToRotation(Vector3.forward, segmentTransform.forward);
+
+        for (int sideIndex = 0; sideIndex < sides; sideIndex++)
+        {
+            float angleInRad = sideIndex * angleDiff * Mathf.Deg2Rad;
+            float x = -1 * radius * Mathf.Cos(angleInRad);
+            float y = radius * Mathf.Sin(angleInRad);
+
+            Vector3 previousPoint = new Vector3(x, y, 0);
+            Vector3 rotatedPoint = diffRotation * previousPoint;
+
+            Vector3 vertex = segmentTransform.position + rotatedPoint;
+            int vertArrayIndex = segmentIndex * sides + sideIndex;
+            vertices[vertArrayIndex] = vertex;
+
+
+            //bool check
+            if (createTriangles)
+            {
+                meshdata.AddVertex(vertex, new(0, 0), vertArrayIndex);
+                bool createThisTriangle = segmentIndex < segmentCount - 1;
+                if (createThisTriangle)
+                {
+                    int currentIncrement = 1;
+                    int a = vertexIndicesMap[segmentIndex, sideIndex];
+                    int b = vertexIndicesMap[segmentIndex + currentIncrement, sideIndex];
+                    int c = vertexIndicesMap[segmentIndex, sideIndex + currentIncrement];
+                    int d = vertexIndicesMap[segmentIndex + currentIncrement, sideIndex + currentIncrement];
+                    bool isLastGap = sideIndex == sides - 1;
+                    if (isLastGap)
+                    {
+                        c = vertexIndicesMap[segmentIndex, 0];
+                        d = vertexIndicesMap[segmentIndex + currentIncrement, 0];
+                    }
+                    meshdata.AddTriangles(a, d, c);
+                    meshdata.AddTriangles(d, a, b);
+                }
+            }
+
+        }
+    }
+
+    private void GenerateIndicesMap()
+    {
+        vertexIndicesMap = new int[segmentCount + 1, sides + 1];
+
+        int meshVertexIndex = 0;
+
+        for (int segmentIndex = 0; segmentIndex < segmentCount; segmentIndex++)
+        {
+            for (int sideIndex = 0; sideIndex < sides; sideIndex++)
+            {
+                vertexIndicesMap[segmentIndex, sideIndex] = meshVertexIndex;
+                meshVertexIndex++;
+            }
+        }
+    }
     private void SetupCollisionAvoidance()
     {
         for (int i = 0; i < segments.Length; i++)
@@ -143,53 +257,6 @@ public class Wire : MonoBehaviour
         }
     }
 
-    private void GenerateVertices()
-    {
-        vertices.Clear();
-        for (int i = 0; i < segments.Length; i++)
-        {
-            GenerateCircleVertices(segments[i], i);
-        }
-    }
-
-    private void GenerateCircleVertices(Transform segmentTransform, int i)
-    {
-        float angleDiff = 360 / sides;
-        Quaternion diffRotation = Quaternion.FromToRotation(Vector3.forward, segmentTransform.forward);
-
-        for (int sideIndex = 0; sideIndex < sides; sideIndex++)
-        {
-            float angleInRad = sideIndex * angleDiff * Mathf.Deg2Rad;
-            float x = -1 * radius * Mathf.Cos(angleInRad);
-            float y = radius * Mathf.Sin(angleInRad);
-
-            Vector3 previousPoint = new Vector3(x, y, 0);
-            Vector3 rotatedPoint = diffRotation * previousPoint;
-
-            Vector3 vertex = segmentTransform.position + rotatedPoint;
-            vertices.Add(vertex);
-        }
-    }
-    private int[,] vertexIndicesMap;
-
-    private void GenerateIndicesMap()
-    {
-        // [segmentIndex, sideIndex] → vertex array index
-        vertexIndicesMap = new int[segmentCount + 1, sides + 1];
-
-        int meshVertexIndex = 0;
-
-        for (int segmentIndex = 0; segmentIndex < segmentCount; segmentIndex++)
-        {
-            for (int sideIndex = 0; sideIndex < sides; sideIndex++)
-            {
-                vertexIndicesMap[segmentIndex, sideIndex] = meshVertexIndex;
-                meshVertexIndex++;
-            }
-        }
-    }
-
-
     private void DestroySegments()
     {
         for (int i = 0; i < segments.Length; i++)
@@ -206,7 +273,7 @@ public class Wire : MonoBehaviour
         {
             Gizmos.DrawWireSphere(segments[i].position, 0.1f);
         }
-        for (int y = 0; y < vertices.Count; y++)
+        for (int y = 0; y < vertices.Length; y++)
         {
             Gizmos.DrawSphere(vertices[y], 0.06f);
         }
