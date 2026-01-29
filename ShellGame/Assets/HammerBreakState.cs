@@ -45,7 +45,7 @@ public class HammerBreakState : ToolStates
                 }
             }
         }
-        StateMachine.ChangeState(ToolLogicController.PrepareState);
+        StateMachine.ChangeState(ToolLogicController.HammerPrepareState);
     }
 
 }

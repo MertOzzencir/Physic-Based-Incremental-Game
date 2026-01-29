@@ -1,42 +1,43 @@
-// using System.Collections;
-// using UnityEngine;
+using System.Collections;
+using UnityEngine;
 
-// public class CollectController : Tools
-// {
-//     [SerializeField] private float toolMoveDistance;
-//     [SerializeField] private GameObject toolPlacement;
-//     [SerializeField] private GameObject collectTool;
-//     [SerializeField] private LayerMask groundMask;
+public class CollectController : Tools
+{
+    [SerializeField] private Wire collectorWire;
 
+    public override void Awake()
+    {
+        base.Awake();
+        ToolMachine.MachineTool = this;
+        ToolController = GetComponent<ToolControllers>();
+        HoverIndicatorController = GetComponent<HoverController>();
+        //ToolGameObject.GetComponentInChildren<AnimationEventSender>().OnAnimationTrigger += BreakObject;
+        StateMachine = new ToolStateMachine();
+        CollectIdleState = new CollectIdleState(StateMachine, this, ToolController, ToolGameObject, Indicator, groundLayermask, breakableLayerMask, new Vector3(0f, 0.5f, 0f));
+        StationState = new ToolStationState(StateMachine, this, ToolController, ToolGameObject, Indicator, CollectIdleState);
+        StateMachine.Initilize(StationState);
+        StartCoroutine(EnableWireDelayed());
 
+    }
 
-//     void Update()
-//     {
-//         if (state != ToolState.Equiped)
-//             return;
+    void OnDisable()
+    {
+        EnableWire(false);
+    }
+    void OnEnable()
+    {
+        EnableWire(true);
+    }
 
-//         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-//         if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, groundMask))
-//         {
-//             collectTool.transform.position = Vector3.Lerp(collectTool.transform.position, hit.point, 15 * Time.deltaTime);
-//             if (Vector3.Distance(collectTool.transform.position, toolPlacement.transform.position) > toolMoveDistance)
-//             {
-//                 Debug.Log("Warning! Tool Too Far away");
-//                 OnDeEquippedLogic();
-//             }
+    void EnableWire(bool state)
+    {
+        collectorWire.enabled = state;
+    }
 
+    IEnumerator EnableWireDelayed()
+    {
+        yield return new WaitForSeconds(.75f);
+        EnableWire(false);
+    }
 
-//         }
-//     }
-//     public override void OnEquippedLogic()
-//     {
-//         state = ToolState.Equiped;
-//         this.enabled = true;
-//     }
-//     public override void OnDeEquippedLogic()
-//     {
-//         state = ToolState.DeEquiped;
-//         StartCoroutine(HandleToolAnimation(collectTool.transform, toolPlacement.transform.position, toolPlacement.transform.forward, false));
-//     }
-
-// }
+}

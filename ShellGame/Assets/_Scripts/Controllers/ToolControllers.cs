@@ -18,16 +18,26 @@ public class ToolControllers : MonoBehaviour
     }
     private void PickTool(int obj)
     {
-        SetTool(tools[obj -1]);
+        SetTool(tools[obj - 1]);
     }
     public void SetTool(Tools nextTool)
     {
 
         if (CurrentTool == nextTool)
         {
+            CurrentTool.DeEquippedLogic();
             CurrentTool = null;
         }
-        else
+        else if (CurrentTool == null)
+        {
             CurrentTool = nextTool;
+            CurrentTool.EquippedLogic();
+        }
+        else
+        {
+            CurrentTool.DeEquippedLogic();
+            CurrentTool = nextTool;
+            CurrentTool.EquippedLogic();
+        }
     }
 }

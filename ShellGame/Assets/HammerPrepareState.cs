@@ -61,7 +61,7 @@ public class HammerPrepareState : ToolStates
                         if (breakObject.IsCollectable)
                             return;
                         if (LeftClickState)
-                            StateMachine.ChangeState(ToolLogicController.BreakState);
+                            StateMachine.ChangeState(ToolLogicController.HammerBreakState);
                         if (currentBreakable == breakObject)
                             return;
                         ToolLogicController.HoverIndicatorController.enabled = true;
@@ -75,13 +75,13 @@ public class HammerPrepareState : ToolStates
             else
             {
                 ToolLogicController.HoverIndicatorController.enabled = false;
-                StateMachine.ChangeState(ToolLogicController.IdleState);
+                StateMachine.ChangeState(ToolLogicController.HammerIdleState);
             }
 
         }
         else
         {
-            StateMachine.ChangeState(ToolLogicController.IdleState);
+            StateMachine.ChangeState(ToolLogicController.HammerIdleState);
         }
 
     }

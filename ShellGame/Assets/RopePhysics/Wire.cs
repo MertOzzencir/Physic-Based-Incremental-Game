@@ -49,7 +49,7 @@ public class Wire : MonoBehaviour
         }
         else
         {
-            GenerateVertices();
+            Debug.Log("Updating Mesh");
             UpdateMesh();
         }
     }

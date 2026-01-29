@@ -14,46 +14,48 @@ public abstract class Tools : MonoBehaviour
     public UIIndicator Indicator;
 
 
-    private ToolStateMachine stateMachine;
-    public HammerStationState StationState { get; set; }
-    public HammerIdleState IdleState { get; set; }
-    public HammerPrepareState PrepareState { get; set; }
-    public HammerBreakState BreakState { get; set; }
+    public ToolStateMachine StateMachine;
+    public ToolStationState StationState { get; set; }
+
 
     public ToolMachineManager ToolMachine;
-    public ToolControllers ToolController { get; private set; }
-    public HoverController HoverIndicatorController { get; private set; }
+    public ToolControllers ToolController { get; set; }
+    public HoverController HoverIndicatorController { get; set; }
 
-    private float hammerSize;
-    private Animator anim;
+    public Animator AnimatorController;
+
+    //HAMMER STATES
+    public HammerIdleState HammerIdleState { get; set; }
+    public HammerPrepareState HammerPrepareState { get; set; }
+    public HammerBreakState HammerBreakState { get; set; }
+
+    //COLLECTSTATES
+    public CollectIdleState CollectIdleState { get; set; }
 
 
     public virtual void Awake()
     {
         ToolMachine.MachineTool = this;
-        hammerSize = ToolGameObject.GetComponent<BoxCollider>().size.y;
-        anim = ToolGameObject.GetComponentInChildren<Animator>();
+        AnimatorController = ToolGameObject.GetComponentInChildren<Animator>();
 
         ToolController = GetComponent<ToolControllers>();
         HoverIndicatorController = GetComponent<HoverController>();
-        //ToolGameObject.GetComponentInChildren<AnimationEventSender>().OnAnimationTrigger += BreakObject;
-        stateMachine = new ToolStateMachine();
-        IdleState = new HammerIdleState(stateMachine, this, ToolController, ToolGameObject, Indicator, groundLayermask, breakableLayerMask, ToolVerticalOffSet);
-        PrepareState = new HammerPrepareState(stateMachine, this, ToolController, ToolGameObject, Indicator, groundLayermask, breakableLayerMask, hammerSize, ToolMaxRollRotation);
-        StationState = new HammerStationState(stateMachine, this, ToolController, ToolGameObject, Indicator);
-        BreakState = new HammerBreakState(stateMachine,this,ToolController,ToolGameObject,Indicator,anim);
-        stateMachine.Initilize(StationState);
+
     }
-    void Update()
+    public virtual void Update()
     {
-        stateMachine.Update();
+        StateMachine.Update();
     }
 
-    public virtual void EquippedLogic(bool stationState)
+    public virtual void EquippedLogic()
     {
-        this.enabled = stationState;
-        HoverIndicatorController.enabled = stationState;
-        stateMachine.ChangeState(StationState);
+        this.enabled = true;
+        StateMachine.ChangeState(StationState);
+    }
+    public virtual void DeEquippedLogic()
+    {
+        ToolBackToStationAnimation(ToolController, ToolGameObject.transform, ToolMachine.ToolPlacement.position, ToolMachine.ToolPlacement.forward);
+        StateMachine.ChangeState(StationState);
     }
     public void ToolBackToStationAnimation(ToolControllers ToolPickController, Transform toolTransform, Vector3 placementPosition, Vector3 directionVector)
     {
@@ -72,6 +74,8 @@ public abstract class Tools : MonoBehaviour
         toolTransform.position = placementPosition;
         toolTransform.transform.rotation = lookRotation;
         ToolPickController.enabled = true;
+        this.enabled = false;
+
     }
 
 

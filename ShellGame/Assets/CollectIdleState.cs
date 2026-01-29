@@ -1,38 +1,36 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class HammerIdleState : ToolStates
-
+public class CollectIdleState : ToolStates
 {
     private LayerMask groundLayerMask;
     private LayerMask breakableObjectLayer;
     private Vector3 hammerHeightOffSet;
-
-
+    private float yOffSet = 0;
+    private bool hasLastPoint;
     private Vector3 lastPoint;
     private Vector3 lastDirection;
-
-    public HammerIdleState(ToolStateMachine stateMachine, Tools toolController, ToolControllers toolPickController, GameObject tool, UIIndicator indiactor, LayerMask groundLayer, LayerMask breakableLayer, Vector3 verticalOffSet) : base(stateMachine, toolController, toolPickController, tool, indiactor)
+    public CollectIdleState(ToolStateMachine stateMachine, Tools toolLogicController, ToolControllers toolPickController, GameObject tool, UIIndicator indicator, LayerMask groundLayer, LayerMask breakableLayer, Vector3 verticalOffSet) : base(stateMachine, toolLogicController, toolPickController, tool, indicator)
     {
-        groundLayerMask = groundLayer;
-        hammerHeightOffSet = verticalOffSet;
         breakableObjectLayer = breakableLayer;
+        hammerHeightOffSet = verticalOffSet;
+        groundLayerMask = groundLayer;
     }
 
     public override void Enter()
     {
         base.Enter();
-        Indicator.SetIndicator(CursorIndicator.IdleMode);
     }
     public override void Exit()
     {
         base.Exit();
     }
-    private float yOffSet = 0;
-    private bool hasLastPoint;
+
 
     public override void Update()
     {
         base.Update();
+
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, groundLayerMask))
@@ -71,18 +69,9 @@ public class HammerIdleState : ToolStates
             Tool.transform.rotation = Quaternion.Lerp(Tool.transform.rotation, lookRotation, 15f * Time.deltaTime);
             lastPoint = hit.point;
         }
-        if (RightClickState)
-        {
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity, breakableObjectLayer /*| groundLayermask*/, QueryTriggerInteraction.Collide))
-            {
-                StateMachine.ChangeState(ToolLogicController.HammerPrepareState);
-            }
-        }
         if (ToolPickController.CurrentTool != ToolLogicController)
         {
             StateMachine.ChangeState(ToolLogicController.StationState);
         }
     }
-
 }
-
