@@ -4,17 +4,17 @@ using UnityEngine;
 public class CollectIdleState : ToolStates
 {
     private LayerMask groundLayerMask;
-    private LayerMask breakableObjectLayer;
     private Vector3 hammerHeightOffSet;
     private float yOffSet = 0;
     private bool hasLastPoint;
     private Vector3 lastPoint;
     private Vector3 lastDirection;
-    public CollectIdleState(ToolStateMachine stateMachine, Tools toolLogicController, ToolControllers toolPickController, GameObject tool, UIIndicator indicator, LayerMask groundLayer, LayerMask breakableLayer, Vector3 verticalOffSet) : base(stateMachine, toolLogicController, toolPickController, tool, indicator)
+    private Wire wire;
+    public CollectIdleState(ToolStateMachine stateMachine, Tools toolLogicController, ToolControllers toolPickController, GameObject tool, UIIndicator indicator, LayerMask groundLayer, Vector3 verticalOffSet, Wire wire) : base(stateMachine, toolLogicController, toolPickController, tool, indicator)
     {
-        breakableObjectLayer = breakableLayer;
         hammerHeightOffSet = verticalOffSet;
         groundLayerMask = groundLayer;
+        this.wire = wire;
     }
 
     public override void Enter()
@@ -26,10 +26,14 @@ public class CollectIdleState : ToolStates
         base.Exit();
     }
 
+    float currentDistance;
 
     public override void Update()
     {
         base.Update();
+        currentDistance = Vector3.Distance(Tool.transform.position, ToolLogicController.ToolMachine.transform.position);
+        wire.totalLength = currentDistance + 2f;
+        wire.UpdateLength();
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
@@ -69,9 +73,11 @@ public class CollectIdleState : ToolStates
             Tool.transform.rotation = Quaternion.Lerp(Tool.transform.rotation, lookRotation, 15f * Time.deltaTime);
             lastPoint = hit.point;
         }
+        if (RightClickState)
+            StateMachine.ChangeState(ToolLogicController.CollectPrepareState);
         if (ToolPickController.CurrentTool != ToolLogicController)
         {
-            StateMachine.ChangeState(ToolLogicController.StationState);
+            StateMachine.ChangeState(ToolLogicController.HammerStationState);
         }
     }
 }

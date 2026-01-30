@@ -4,14 +4,16 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class LocalChildBreakable : MonoBehaviour, IBreakable, ICollectable
+public class LocalChildBreakable : MonoBehaviour, IBreakable
 {
 
     public List<LocalChildBreakable> connectedToObject;
     public LocalChildBreakable rootObject;
 
 
+
     private LocalBreakableManager manager;
+    private LocalDropManager dropManager;
     int childTimer;
 
     public bool IsCollectable { get; set; }
@@ -20,13 +22,14 @@ public class LocalChildBreakable : MonoBehaviour, IBreakable, ICollectable
     {
         childTimer = connectedToObject.Count;
         manager = GetComponentInParent<LocalBreakableManager>();
+        dropManager = GetComponent<LocalDropManager>();
     }
     public void Break(Vector3 forceDirection)
     {
         if (!IsCollectable)
         {
             manager.HandleLogicOfChild(this, forceDirection);
-            CollectState();
+            BreakState();
         }
     }
     public void RecieveMessageFromChild(LocalChildBreakable objectToRemove)
@@ -43,7 +46,7 @@ public class LocalChildBreakable : MonoBehaviour, IBreakable, ICollectable
         {
             connectedToObject.Clear();
             transform.parent = null;
-            CollectState();
+            BreakState();
             if (transform.GetComponent<Rigidbody>() == null)
                 transform.AddComponent<Rigidbody>();
             if (rootObject != null)
@@ -52,14 +55,14 @@ public class LocalChildBreakable : MonoBehaviour, IBreakable, ICollectable
             }
         }
     }
-    public void CollectState()
+
+    public void BreakState()
     {
+        if (IsCollectable)
+            return;
         IsCollectable = true;
         manager.OnChildDeath(this);
+        dropManager.SpawnDrop(transform.position);
     }
 
-    public void Collect()
-    {
-        throw new NotImplementedException();
-    }
 }

@@ -80,7 +80,7 @@ public class HammerIdleState : ToolStates
         }
         if (ToolPickController.CurrentTool != ToolLogicController)
         {
-            StateMachine.ChangeState(ToolLogicController.StationState);
+            StateMachine.ChangeState(ToolLogicController.HammerStationState);
         }
     }
 

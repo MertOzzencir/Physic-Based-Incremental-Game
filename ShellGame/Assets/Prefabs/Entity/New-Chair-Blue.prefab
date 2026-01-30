@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 1692420738832354223}
   - component: {fileID: 323432932374029430}
   - component: {fileID: 2315440345813018914}
+  - component: {fileID: 8766203104483083116}
+  - component: {fileID: 5023341893793514271}
   m_Layer: 0
   m_Name: LeftTopLeg
   m_TagString: Untagged
@@ -126,6 +128,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LocalChildBreakable
   connectedToObject: []
   rootObject: {fileID: 5751297635347167420}
+--- !u!114 &8766203104483083116
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1565379070696648769}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99b4033ab307b78468f47144aa923adf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocalBreakableManager
+  Childs: []
+--- !u!114 &5023341893793514271
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1565379070696648769}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4520331d87449d34ca4006f65db037fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocalDropManager
+  childDropData: {fileID: 11400000, guid: a081f7d6338dff0498f017f036127137, type: 2}
 --- !u!1 &2998217766984046741
 GameObject:
   m_ObjectHideFlags: 0
@@ -363,6 +391,8 @@ GameObject:
   - component: {fileID: 6335572308839780741}
   - component: {fileID: 6335784022375098185}
   - component: {fileID: 5751297635347167420}
+  - component: {fileID: 3332538396434063355}
+  - component: {fileID: 7277010631983084509}
   m_Layer: 0
   m_Name: ChairBase
   m_TagString: Untagged
@@ -481,6 +511,32 @@ MonoBehaviour:
   - {fileID: 6380715330305549778}
   - {fileID: 4495980619103652935}
   rootObject: {fileID: 0}
+--- !u!114 &3332538396434063355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4810231648941608367}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99b4033ab307b78468f47144aa923adf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocalBreakableManager
+  Childs: []
+--- !u!114 &7277010631983084509
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4810231648941608367}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4520331d87449d34ca4006f65db037fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocalDropManager
+  childDropData: {fileID: 11400000, guid: a081f7d6338dff0498f017f036127137, type: 2}
 --- !u!1 &4848472052260526777
 GameObject:
   m_ObjectHideFlags: 0
@@ -494,6 +550,8 @@ GameObject:
   - component: {fileID: 4083300062747467378}
   - component: {fileID: 5046015127248083508}
   - component: {fileID: 1784713847796402605}
+  - component: {fileID: 5683781991532585978}
+  - component: {fileID: 241050800356309698}
   m_Layer: 0
   m_Name: LeftBottomLeg
   m_TagString: Untagged
@@ -607,6 +665,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LocalChildBreakable
   connectedToObject: []
   rootObject: {fileID: 5751297635347167420}
+--- !u!114 &5683781991532585978
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4848472052260526777}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99b4033ab307b78468f47144aa923adf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocalBreakableManager
+  Childs: []
+--- !u!114 &241050800356309698
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4848472052260526777}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4520331d87449d34ca4006f65db037fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocalDropManager
+  childDropData: {fileID: 11400000, guid: a081f7d6338dff0498f017f036127137, type: 2}
 --- !u!1 &5272988367507781878
 GameObject:
   m_ObjectHideFlags: 0
@@ -620,6 +704,8 @@ GameObject:
   - component: {fileID: 4808676879189403561}
   - component: {fileID: 2791663882531400193}
   - component: {fileID: 4495980619103652935}
+  - component: {fileID: 5166435692790125272}
+  - component: {fileID: 2882089498472721595}
   m_Layer: 0
   m_Name: RightTopLeg
   m_TagString: Untagged
@@ -733,6 +819,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LocalChildBreakable
   connectedToObject: []
   rootObject: {fileID: 5751297635347167420}
+--- !u!114 &5166435692790125272
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5272988367507781878}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99b4033ab307b78468f47144aa923adf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocalBreakableManager
+  Childs: []
+--- !u!114 &2882089498472721595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5272988367507781878}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4520331d87449d34ca4006f65db037fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocalDropManager
+  childDropData: {fileID: 11400000, guid: a081f7d6338dff0498f017f036127137, type: 2}
 --- !u!1 &5301006207529148392
 GameObject:
   m_ObjectHideFlags: 0
@@ -835,6 +947,8 @@ GameObject:
   - component: {fileID: 5389731889458944525}
   - component: {fileID: 4334149118011632728}
   - component: {fileID: 9053557932634035379}
+  - component: {fileID: 6855046262712487177}
+  - component: {fileID: 3421979449730405619}
   m_Layer: 0
   m_Name: ChairUpperRight
   m_TagString: Untagged
@@ -948,6 +1062,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LocalChildBreakable
   connectedToObject: []
   rootObject: {fileID: 3809346717686677744}
+--- !u!114 &6855046262712487177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6247510591760709866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99b4033ab307b78468f47144aa923adf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocalBreakableManager
+  Childs: []
+--- !u!114 &3421979449730405619
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6247510591760709866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4520331d87449d34ca4006f65db037fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocalDropManager
+  childDropData: {fileID: 11400000, guid: a081f7d6338dff0498f017f036127137, type: 2}
 --- !u!1 &7084809145566527719
 GameObject:
   m_ObjectHideFlags: 0
@@ -961,6 +1101,8 @@ GameObject:
   - component: {fileID: 5163346822084531395}
   - component: {fileID: 4385060706850574733}
   - component: {fileID: 3324207007684666914}
+  - component: {fileID: 4845877676512069645}
+  - component: {fileID: 8814689148623576280}
   m_Layer: 0
   m_Name: ChairUpperLeft
   m_TagString: Untagged
@@ -1074,6 +1216,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LocalChildBreakable
   connectedToObject: []
   rootObject: {fileID: 3809346717686677744}
+--- !u!114 &4845877676512069645
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7084809145566527719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99b4033ab307b78468f47144aa923adf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocalBreakableManager
+  Childs: []
+--- !u!114 &8814689148623576280
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7084809145566527719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4520331d87449d34ca4006f65db037fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocalDropManager
+  childDropData: {fileID: 11400000, guid: a081f7d6338dff0498f017f036127137, type: 2}
 --- !u!1 &7088464784214336387
 GameObject:
   m_ObjectHideFlags: 0
@@ -1087,6 +1255,8 @@ GameObject:
   - component: {fileID: 4713501983969393657}
   - component: {fileID: 2965174104637925440}
   - component: {fileID: 6380715330305549778}
+  - component: {fileID: 7487271133188309322}
+  - component: {fileID: 3237472286672533777}
   m_Layer: 0
   m_Name: RightBottomLeg
   m_TagString: Untagged
@@ -1200,6 +1370,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LocalChildBreakable
   connectedToObject: []
   rootObject: {fileID: 5751297635347167420}
+--- !u!114 &7487271133188309322
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7088464784214336387}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99b4033ab307b78468f47144aa923adf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocalBreakableManager
+  Childs: []
+--- !u!114 &3237472286672533777
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7088464784214336387}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4520331d87449d34ca4006f65db037fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocalDropManager
+  childDropData: {fileID: 11400000, guid: a081f7d6338dff0498f017f036127137, type: 2}
 --- !u!1 &8535889814160722471
 GameObject:
   m_ObjectHideFlags: 0
@@ -1213,6 +1409,8 @@ GameObject:
   - component: {fileID: 3981960537976258261}
   - component: {fileID: 3854866075613014212}
   - component: {fileID: 3809346717686677744}
+  - component: {fileID: 3985393158301008708}
+  - component: {fileID: 6569691003566959797}
   m_Layer: 7
   m_Name: ChairUpperMiddle
   m_TagString: Untagged
@@ -1330,3 +1528,29 @@ MonoBehaviour:
   - {fileID: 3324207007684666914}
   - {fileID: 9053557932634035379}
   rootObject: {fileID: 5751297635347167420}
+--- !u!114 &3985393158301008708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8535889814160722471}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99b4033ab307b78468f47144aa923adf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocalBreakableManager
+  Childs: []
+--- !u!114 &6569691003566959797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8535889814160722471}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4520331d87449d34ca4006f65db037fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocalDropManager
+  childDropData: {fileID: 11400000, guid: a081f7d6338dff0498f017f036127137, type: 2}

@@ -5,12 +5,11 @@ using UnityEngine;
 public class Wire : MonoBehaviour
 {
     [SerializeField] private Transform startPoint, endPoint, segmentsParent;
-    [SerializeField] private int segmentCount = 10;
-    [SerializeField] private float totalLength = 10;
+    public int segmentCount = 10;
+    public float totalLength = 10;
     [SerializeField] private float radius = 0.5f;
 
     [SerializeField] private bool usePhysics;
-    [SerializeField] private bool updateRope = false;
     [SerializeField] private float totalWeight = 10f;
     [SerializeField] private float drag = 1f;
     [SerializeField] private float angularDrag = 1f;
@@ -18,6 +17,7 @@ public class Wire : MonoBehaviour
     [Header("Mesh Settings")]
     [SerializeField] private int sides = 4;
 
+    public bool CanUpdate;
     private Transform[] segments;
     private Vector3[] vertices;
     private int[,] vertexIndicesMap;
@@ -40,18 +40,15 @@ public class Wire : MonoBehaviour
 
     private void Update()
     {
-        if (updateRope)
+        if (CanUpdate)
         {
             DestroySegments();
             segments = new Transform[segmentCount];
             GenerateSegments();
-            updateRope = false;
         }
-        else
-        {
-            Debug.Log("Updating Mesh");
-            UpdateMesh();
-        }
+
+
+        UpdateMesh();
     }
 
     private void GenerateSegments()
@@ -76,6 +73,21 @@ public class Wire : MonoBehaviour
         SetupCollisionAvoidance();
         GenerateMesh();
 
+    }
+    public void UpdateLength()
+    {
+        int i = 0;
+        foreach (var a in segments)
+        {
+            if (i == 0)
+            {
+                i++;
+                continue;
+            }
+            i++;
+            a.GetComponent<ConfigurableJoint>().connectedAnchor = Vector3.forward * (totalLength / segmentCount);
+        }
+        endPoint.transform.GetComponent<ConfigurableJoint>().connectedAnchor = Vector3.forward * 0.1f;
     }
 
     private void JoinSegments(Transform current, Transform connectedTransform, bool isKinematic = false, bool isCloseConnected = false)
@@ -144,7 +156,7 @@ public class Wire : MonoBehaviour
             segmentJoint.angularYZDrive = jointDrive;
         }
     }
-    private void UpdateMesh()
+    public void UpdateMesh()
     {
         GenerateVertices();
         mFilter.mesh.vertices = vertices;

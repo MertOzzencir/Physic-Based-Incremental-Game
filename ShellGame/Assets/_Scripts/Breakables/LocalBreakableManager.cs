@@ -18,7 +18,7 @@ public class LocalBreakableManager : MonoBehaviour
             {
                 if (a.connectedToObject.Count == 0)
                 {
-                    a.CollectState();
+                    a.BreakState();
                 }
 
                 a.rootObject.RecieveMessageFromChild(a);
@@ -61,7 +61,7 @@ public class LocalBreakableManager : MonoBehaviour
 
     public void OnChildDeath(LocalChildBreakable destroyedChild)
     {
-        Destroy(destroyedChild.gameObject, 1f);
+
         Childs.Remove(destroyedChild);
         if (Childs.Count <= 0)
         {

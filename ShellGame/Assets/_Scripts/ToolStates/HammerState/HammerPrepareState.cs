@@ -65,7 +65,8 @@ public class HammerPrepareState : ToolStates
                         if (currentBreakable == breakObject)
                             return;
                         ToolLogicController.HoverIndicatorController.enabled = true;
-                        ToolLogicController.HoverIndicatorController.HoverOnObject(hit.collider);
+                        if (hit.transform.gameObject != null)
+                            ToolLogicController.HoverIndicatorController.HoverOnObject(hit.collider);
                         currentBreakable = breakObject;
 
                     }
