@@ -6,7 +6,7 @@ public class StateMachine
     private ToolState currentState;
 
 
-    public void Initilize(ToolState state)
+    public void Initialize(ToolState state)
     {
         currentState = state;
         Debug.Log(currentState);

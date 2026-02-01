@@ -56,22 +56,23 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6183894833253715626}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d0088081cfb149a46810f666291ae29f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
   ToolGameObject: {fileID: 0}
-  groundLayermask:
+  GroundLayerMask:
     serializedVersion: 2
     m_Bits: 64
+  ToolVerticalOffSet: {x: 0, y: 0.75, z: 0}
+  IndicatorController: {fileID: 0}
+  ToolMachine: {fileID: 0}
+  AnimatorController: {fileID: 0}
   breakableLayerMask:
     serializedVersion: 2
     m_Bits: 128
-  ToolVerticalOffSet: {x: 0, y: 0.75, z: 0}
-  ToolMaxRollRotation: 90
-  Indicator: {fileID: 0}
-  ToolMachine: {fileID: 0}
+  maxRollRotation: 90
 --- !u!114 &3145024635412818390
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -85,16 +86,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   ToolGameObject: {fileID: 0}
-  groundLayermask:
+  GroundLayerMask:
     serializedVersion: 2
     m_Bits: 64
-  breakableLayerMask:
-    serializedVersion: 2
-    m_Bits: 128
   ToolVerticalOffSet: {x: 0, y: 0.75, z: 0}
-  ToolMaxRollRotation: 90
-  Indicator: {fileID: 0}
+  IndicatorController: {fileID: 0}
   ToolMachine: {fileID: 0}
+  AnimatorController: {fileID: 0}
+  wire: {fileID: 0}
 --- !u!114 &6893440390569333769
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -20,12 +20,11 @@ public class HammerController : Tools
     {
         base.Awake();
         hammerSize = ToolGameObject.GetComponent<BoxCollider>().size.y;
-
         HammerStationState = new HammerStationState(StateMachine, IndicatorController, this, ToolGameObject, ToolController, GroundLayerMask, breakableLayerMask);
         HammerIdleState = new HammerIdleState(StateMachine, IndicatorController, this, ToolGameObject, ToolController, GroundLayerMask, breakableLayerMask, ToolVerticalOffSet);
         HammerPrepareState = new HammerPrepareState(StateMachine, IndicatorController, this, ToolGameObject, ToolController, GroundLayerMask, breakableLayerMask, hammerSize, maxRollRotation);
         HammerBreakState = new HammerBreakState(StateMachine, IndicatorController, this, ToolGameObject, ToolController, GroundLayerMask, breakableLayerMask, AnimatorController);
-        StateMachine.Initilize(HammerStationState);
+        StateMachine.Initialize(HammerStationState);
     }
     public override void EquippedLogic()
     {

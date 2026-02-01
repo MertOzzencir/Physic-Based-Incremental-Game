@@ -1,4 +1,3 @@
-using UnityEditor.EditorTools;
 using UnityEngine;
 
 public class HammerIdleState : HammerState
@@ -9,11 +8,18 @@ public class HammerIdleState : HammerState
 
     private Vector3 lastPoint;
     private Vector3 lastDirection;
+    private float smoothedSpeed = 0f;
+    private float speedSmoothVelocity = 0f;
+
 
     public HammerIdleState(StateMachine stateMachine, UIIndicator indicator, HammerController controller, GameObject tool, ToolControllers toolManager, LayerMask groundLayerMask, LayerMask breakableLayerMask, Vector3 verticalOffSet) : base(stateMachine, indicator, controller, tool, toolManager, groundLayerMask, breakableLayerMask)
     {
         hammerHeightOffSet = verticalOffSet;
+        Debug.Log(Application.persistentDataPath);
     }
+
+
+    // In your Update:
 
     public override void Enter()
     {
@@ -45,7 +51,10 @@ public class HammerIdleState : HammerState
 
             }
             float delta = Vector3.Distance(hit.point, lastPoint);
-            float speed = delta / Time.deltaTime;
+            float instantSpeed = delta / Time.deltaTime;
+
+            // Smooth the speed over time (this is the key fix!)
+            smoothedSpeed = Mathf.SmoothDamp(smoothedSpeed, instantSpeed, ref speedSmoothVelocity, 0.1f);
 
             Vector3 currentDirection = hit.point - lastPoint;
             currentDirection.y = 0;
@@ -54,7 +63,7 @@ public class HammerIdleState : HammerState
                 lastDirection = currentDirection;
             }
 
-            if (speed > 1.5f)
+            if (smoothedSpeed > 1.5f)
             {
                 yOffSet += Time.deltaTime * 2.5f;
             }
@@ -66,8 +75,13 @@ public class HammerIdleState : HammerState
 
             yOffSet = Mathf.Clamp(yOffSet, 0, 0.75f);
             Quaternion lookRotation = Quaternion.LookRotation(lastDirection);
-            ToolGameObject.transform.position = Vector3.Lerp(ToolGameObject.transform.position, hit.point + hammerHeightOffSet + new Vector3(0, yOffSet, 0), 5f * Time.deltaTime);
-            ToolGameObject.transform.rotation = Quaternion.Lerp(ToolGameObject.transform.rotation, lookRotation, 15f * Time.deltaTime);
+            ToolGameObject.transform.position = Vector3.Lerp(
+            ToolGameObject.transform.position,
+            hit.point + hammerHeightOffSet + new Vector3(0, yOffSet, 0),
+            1f - Mathf.Exp(-5f * Time.deltaTime)
+        );
+
+            ToolGameObject.transform.rotation = Quaternion.Lerp(ToolGameObject.transform.rotation, lookRotation, 1f - Mathf.Exp(-15f * Time.deltaTime));
             lastPoint = hit.point;
         }
         if (RightClickState)

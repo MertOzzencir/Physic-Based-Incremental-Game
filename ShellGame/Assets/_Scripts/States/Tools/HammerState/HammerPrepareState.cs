@@ -3,15 +3,15 @@ using UnityEngine;
 
 public class HammerPrepareState : HammerState
 {
-    float hammerSize;
+    float HammerSize;
     private float rotationCorrect;
     private float hammerRollRotation;
     private LocalChildBreakable currentBreakable;
 
     public HammerPrepareState(StateMachine stateMachine, UIIndicator indicator, HammerController controller, GameObject tool, ToolControllers toolManager, LayerMask groundLayerMask, LayerMask breakableLayerMask, float hammerSize, float maxRotation) : base(stateMachine, indicator, controller, tool, toolManager, groundLayerMask, breakableLayerMask)
     {
-        this.hammerSize = hammerSize;
-        rotationCorrect = maxRotation;
+        this.HammerSize = hammerSize;
+        hammerRollRotation = maxRotation;
     }
 
     public override void Enter()
@@ -45,7 +45,7 @@ public class HammerPrepareState : HammerState
                     {
 
                         if (Physics.Raycast(hit.point, Vector3.down,
-                       out RaycastHit hitCorrect, hammerSize, GroundLayerMask))
+                       out RaycastHit hitCorrect, HammerSize, GroundLayerMask))
                         {
                             float distance = hit.point.y - hitCorrect.point.y;
                             rotationCorrect = (1 - distance) * hammerRollRotation;

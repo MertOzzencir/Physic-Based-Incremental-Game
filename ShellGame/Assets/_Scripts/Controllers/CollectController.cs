@@ -17,7 +17,7 @@ public class CollectController : Tools
         CollectStationState = new CollectStationState(StateMachine, this, IndicatorController, ToolGameObject, ToolController, ToolMachine, wire, GroundLayerMask);
         CollectIdleState = new CollectIdleState(StateMachine, this, IndicatorController, ToolGameObject, ToolController, ToolMachine, wire, GroundLayerMask, new Vector3(0f, 0.5f, 0f), rb);
         CollectPrepareState = new CollectPrepareState(StateMachine, this, IndicatorController, ToolGameObject, ToolController, ToolMachine, wire, GroundLayerMask);
-        StateMachine.Initilize(CollectStationState);
+        StateMachine.Initialize(CollectStationState);
         //StartCoroutine(EnableWireDelayed());
 
     }
