@@ -1,43 +1,40 @@
-using Unity.VisualScripting;
+using UnityEditor.EditorTools;
 using UnityEngine;
 
-public class CollectIdleState : ToolStates
+public class HammerIdleState : HammerState
+
 {
-    private LayerMask groundLayerMask;
     private Vector3 hammerHeightOffSet;
-    private float yOffSet = 0;
-    private bool hasLastPoint;
+
+
     private Vector3 lastPoint;
     private Vector3 lastDirection;
-    private Wire wire;
-    public CollectIdleState(ToolStateMachine stateMachine, Tools toolLogicController, ToolControllers toolPickController, GameObject tool, UIIndicator indicator, LayerMask groundLayer, Vector3 verticalOffSet, Wire wire) : base(stateMachine, toolLogicController, toolPickController, tool, indicator)
+
+    public HammerIdleState(StateMachine stateMachine, UIIndicator indicator, HammerController controller, GameObject tool, ToolControllers toolManager, LayerMask groundLayerMask, LayerMask breakableLayerMask, Vector3 verticalOffSet) : base(stateMachine, indicator, controller, tool, toolManager, groundLayerMask, breakableLayerMask)
     {
         hammerHeightOffSet = verticalOffSet;
-        groundLayerMask = groundLayer;
-        this.wire = wire;
     }
 
     public override void Enter()
     {
         base.Enter();
+        Indicator.SetIndicator(CursorIndicator.IdleMode);
     }
     public override void Exit()
     {
         base.Exit();
     }
+    private float yOffSet = 0;
+    private bool hasLastPoint;
 
-    float currentDistance;
+
 
     public override void Update()
     {
         base.Update();
-        currentDistance = Vector3.Distance(Tool.transform.position, ToolLogicController.ToolMachine.transform.position);
-        wire.totalLength = currentDistance + 2f;
-        wire.UpdateLength();
-
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, Mathf.Infinity, groundLayerMask))
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, GroundLayerMask))
         {
 
             if (!hasLastPoint)
@@ -69,15 +66,22 @@ public class CollectIdleState : ToolStates
 
             yOffSet = Mathf.Clamp(yOffSet, 0, 0.75f);
             Quaternion lookRotation = Quaternion.LookRotation(lastDirection);
-            Tool.transform.position = Vector3.Lerp(Tool.transform.position, hit.point + hammerHeightOffSet + new Vector3(0, yOffSet, 0), 5f * Time.deltaTime);
-            Tool.transform.rotation = Quaternion.Lerp(Tool.transform.rotation, lookRotation, 15f * Time.deltaTime);
+            ToolGameObject.transform.position = Vector3.Lerp(ToolGameObject.transform.position, hit.point + hammerHeightOffSet + new Vector3(0, yOffSet, 0), 5f * Time.deltaTime);
+            ToolGameObject.transform.rotation = Quaternion.Lerp(ToolGameObject.transform.rotation, lookRotation, 15f * Time.deltaTime);
             lastPoint = hit.point;
         }
         if (RightClickState)
-            StateMachine.ChangeState(ToolLogicController.CollectPrepareState);
-        if (ToolPickController.CurrentTool != ToolLogicController)
         {
-            StateMachine.ChangeState(ToolLogicController.HammerStationState);
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, BreakableLayerMask /*| groundLayermask*/, QueryTriggerInteraction.Collide))
+            {
+                StateMachine.ChangeState(ToolController.HammerPrepareState);
+            }
+        }
+        if (ToolPickManager.CurrentTool != ToolController)
+        {
+            StateMachine.ChangeState(ToolController.HammerStationState);
         }
     }
+
 }
+

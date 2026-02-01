@@ -87,7 +87,7 @@ public class Wire : MonoBehaviour
             i++;
             a.GetComponent<ConfigurableJoint>().connectedAnchor = Vector3.forward * (totalLength / segmentCount);
         }
-        endPoint.transform.GetComponent<ConfigurableJoint>().connectedAnchor = Vector3.forward * 0.1f;
+        endPoint.transform.GetComponent<ConfigurableJoint>().connectedAnchor = (Vector3.forward * (totalLength / segmentCount))/1.5f;
     }
 
     private void JoinSegments(Transform current, Transform connectedTransform, bool isKinematic = false, bool isCloseConnected = false)
@@ -143,15 +143,15 @@ public class Wire : MonoBehaviour
 
             segmentJoint.angularXMotion = ConfigurableJointMotion.Free;
             segmentJoint.angularYMotion = ConfigurableJointMotion.Free;
-            segmentJoint.angularZMotion = ConfigurableJointMotion.Limited;
+            segmentJoint.angularZMotion = ConfigurableJointMotion.Locked;
 
             SoftJointLimit softJointLimit = new SoftJointLimit();
             softJointLimit.limit = 0;
             segmentJoint.angularZLimit = softJointLimit;
 
             JointDrive jointDrive = new JointDrive();
-            jointDrive.positionDamper = 0;
-            jointDrive.positionSpring = 0;
+            jointDrive.positionDamper = 100;
+            jointDrive.positionSpring = 500;
             segmentJoint.angularXDrive = jointDrive;
             segmentJoint.angularYZDrive = jointDrive;
         }

@@ -2,10 +2,11 @@ using System;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class HammerBreakState : ToolStates
+public class HammerBreakState : HammerState
 {
     private Animator toolAnimator;
-    public HammerBreakState(ToolStateMachine stateMachine, Tools toolLogicController, ToolControllers toolPickController, GameObject tool, UIIndicator indicator, Animator anim) : base(stateMachine, toolLogicController, toolPickController, tool, indicator)
+
+    public HammerBreakState(StateMachine stateMachine, UIIndicator indicator, HammerController controller, GameObject tool, ToolControllers toolManager, LayerMask groundLayerMask, LayerMask breakableLayerMask, Animator anim) : base(stateMachine, indicator, controller, tool, toolManager, groundLayerMask, breakableLayerMask)
     {
         toolAnimator = anim;
     }
@@ -40,12 +41,12 @@ public class HammerBreakState : ToolStates
             {
                 if (breakablePiece != null)
                 {
-                    breakablePiece.Break(Tool.transform.forward);
+                    breakablePiece.Break(ToolGameObject.transform.forward);
                     Indicator.BreakCursorFinish();
                 }
             }
         }
-        StateMachine.ChangeState(ToolLogicController.HammerPrepareState);
+        StateMachine.ChangeState(ToolController.HammerPrepareState);
     }
 
 }

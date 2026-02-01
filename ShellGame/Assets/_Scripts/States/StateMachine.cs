@@ -1,19 +1,19 @@
 using UnityEngine;
 
-public class ToolStateMachine
+public class StateMachine
 {
 
-    private ToolStates currentState;
+    private ToolState currentState;
 
 
-    public void Initilize(ToolStates state)
+    public void Initilize(ToolState state)
     {
         currentState = state;
         Debug.Log(currentState);
         currentState.Enter();
     }
 
-    public void ChangeState(ToolStates nextState)
+    public void ChangeState(ToolState nextState)
     {
         currentState.Exit();
         currentState = nextState;

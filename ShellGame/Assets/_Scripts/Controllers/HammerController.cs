@@ -6,7 +6,14 @@ using UnityEngine;
 
 public class HammerController : Tools
 {
+    [SerializeField] private LayerMask breakableLayerMask;
+    [SerializeField] private float maxRollRotation;
 
+
+    public HammerIdleState HammerIdleState { get; set; }
+    public HammerPrepareState HammerPrepareState { get; set; }
+    public HammerBreakState HammerBreakState { get; set; }
+    public HammerStationState HammerStationState { get; set; }
     private float hammerSize;
 
     public override void Awake()
@@ -14,11 +21,10 @@ public class HammerController : Tools
         base.Awake();
         hammerSize = ToolGameObject.GetComponent<BoxCollider>().size.y;
 
-        StateMachine = new ToolStateMachine();
-        HammerPrepareState = new HammerPrepareState(StateMachine, this, ToolController, ToolGameObject, Indicator, groundLayermask, breakableLayerMask, hammerSize, ToolMaxRollRotation);
-        HammerIdleState = new HammerIdleState(StateMachine, this, ToolController, ToolGameObject, Indicator, groundLayermask, breakableLayerMask, ToolVerticalOffSet);
-        HammerStationState = new HammerStationState(StateMachine, this, ToolController, ToolGameObject, Indicator);
-        HammerBreakState = new HammerBreakState(StateMachine, this, ToolController, ToolGameObject, Indicator, AnimatorController);
+        HammerStationState = new HammerStationState(StateMachine, IndicatorController, this, ToolGameObject, ToolController, GroundLayerMask, breakableLayerMask);
+        HammerIdleState = new HammerIdleState(StateMachine, IndicatorController, this, ToolGameObject, ToolController, GroundLayerMask, breakableLayerMask, ToolVerticalOffSet);
+        HammerPrepareState = new HammerPrepareState(StateMachine, IndicatorController, this, ToolGameObject, ToolController, GroundLayerMask, breakableLayerMask, hammerSize, maxRollRotation);
+        HammerBreakState = new HammerBreakState(StateMachine, IndicatorController, this, ToolGameObject, ToolController, GroundLayerMask, breakableLayerMask, AnimatorController);
         StateMachine.Initilize(HammerStationState);
     }
     public override void EquippedLogic()

@@ -5,17 +5,18 @@ public class CollectController : Tools
 {
     [SerializeField] private Wire wire;
 
+    private Rigidbody rb;
+    public CollectIdleState CollectIdleState { get; set; }
+    public CollectPrepareState CollectPrepareState { get; set; }
+    public CollectStationState CollectStationState { get; set; }
     public override void Awake()
     {
         base.Awake();
-        ToolMachine.MachineTool = this;
-        ToolController = GetComponent<ToolControllers>();
-        HoverIndicatorController = GetComponent<HoverController>();
+        rb = ToolGameObject.GetComponent<Rigidbody>();
         //ToolGameObject.GetComponentInChildren<AnimationEventSender>().OnAnimationTrigger += BreakObject;
-        StateMachine = new ToolStateMachine();
-        CollectIdleState = new CollectIdleState(StateMachine, this, ToolController, ToolGameObject, Indicator, groundLayermask, new Vector3(0f, 0.5f, 0f), wire);
-        CollectStationState = new CollectStationState(StateMachine, this, ToolController, ToolGameObject, Indicator, wire);
-        CollectPrepareState = new CollectPrepareState(StateMachine, this, ToolController, ToolGameObject, Indicator, wire);
+        CollectStationState = new CollectStationState(StateMachine, this, IndicatorController, ToolGameObject, ToolController, ToolMachine, wire, GroundLayerMask);
+        CollectIdleState = new CollectIdleState(StateMachine, this, IndicatorController, ToolGameObject, ToolController, ToolMachine, wire, GroundLayerMask, new Vector3(0f, 0.5f, 0f), rb);
+        CollectPrepareState = new CollectPrepareState(StateMachine, this, IndicatorController, ToolGameObject, ToolController, ToolMachine, wire, GroundLayerMask);
         StateMachine.Initilize(CollectStationState);
         //StartCoroutine(EnableWireDelayed());
 
