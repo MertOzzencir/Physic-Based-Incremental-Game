@@ -2,6 +2,9 @@
 
 An experimental incremental game prototype focused on advanced Unity physics systems. Built to push my understanding of ConfigurableJoints, procedural mesh generation, and physics-based destruction beyond basic tutorials.
 
+![Physics Demo](screenshots/38gif.gif)
+*Real-time physics simulation with rope and destruction systems*
+
 ![Core Gameplay](screenshots/30.png)
 *Physics-based destruction and tool interaction system*
 
