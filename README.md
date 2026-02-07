@@ -228,7 +228,7 @@ ICollectable   → Item pickup
 
 ## 🛠️ Technical Stack
 
-- **Unity 2021.3+** (URP)
+- **Unity 6000.2.6f2** (URP)
 - **C#** for all game systems
 - **ConfigurableJoint** for rope physics
 - **Procedural Mesh API** for rope visualization
